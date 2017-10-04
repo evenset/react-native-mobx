@@ -3,6 +3,7 @@
 import React from 'react';
 import { Button, SectionList, View } from 'react-native';
 
+import { NAVIGATION_PROP_TYPE } from '../constants';
 import Departure from './departure';
 import Header from './header';
 import styles from '../../styles';
@@ -39,21 +40,51 @@ function renderDeparture(data: Object): * {
 }
 
 
-function DepartureList(): * {
-    return (
-        <View style={styles.departureList}>
-            <Button
-                style={styles.reloadDepartures}
-                title="Reload Departures"
-            />
-            <SectionList
-                renderItem={renderDeparture}
-                renderSectionHeader={renderHeader}
-                sections={SECTIONS}
-            />
-        </View>
-    );
+class DepartureList extends React.Component {
+    constructor(props: Object) {
+        super(props);
+        this.handleAboutClick = this.handleAboutClick.bind(this);
+        this.handleReloadDepartures = this.handleReloadDepartures.bind(this);
+    }
+
+    handleAboutClick() {
+        this.props.navigation.navigate('AboutApp');
+    }
+
+    handleReloadDepartures() {
+        // TODO
+    }
+
+    render(): * {
+        return (
+            <View style={styles.departureList}>
+                <View style={styles.rowOfButtons}>
+                    <Button
+                        onPress={this.handleReloadDepartures}
+                        title="Reload Departures"
+                    />
+                </View>
+                <SectionList
+                    renderItem={renderDeparture}
+                    renderSectionHeader={renderHeader}
+                    sections={SECTIONS}
+                />
+                <View style={[styles.rowOfButtons, styles.rowOfButtonsWithMargins]}>
+                    <Button
+                        onPress={this.handleAboutClick}
+                        title="About App"
+                    />
+                </View>
+            </View>
+        );
+    }
 }
+DepartureList.propTypes = {
+    navigation: NAVIGATION_PROP_TYPE,
+};
+DepartureList.defaultProps = {
+    navigation: {},
+};
 
 
 export default DepartureList;

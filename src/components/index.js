@@ -1,18 +1,24 @@
-// flow
+// @flow
 
-import React from 'react';
+import { StackNavigator } from 'react-navigation';
 
-import AppContainer from './app_container';
-import Contents from './contents';
-
-
-function RNMobxStarter(): * {
-    return (
-        <AppContainer>
-            <Contents />
-        </AppContainer>
-    );
-}
+import AboutApp from './about_app';
+import { APP_NAME } from './constants';
+import MainScreen from './main_screen';
+import styles from '../styles';
 
 
-export default RNMobxStarter;
+const ReactNativeMobx = StackNavigator({
+    // first screen will be the first "page" shown
+    MainScreen: { screen: MainScreen },
+    AboutApp: { screen: AboutApp },
+}, {
+    navigationOptions: {
+        headerStyle: styles.appHeader,
+        headerTitleStyle: styles.appHeaderTitle,
+        title: APP_NAME,
+    },
+});
+
+
+export default ReactNativeMobx;
