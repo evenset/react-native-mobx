@@ -10,6 +10,7 @@ const url = 'https://transit.land/api/v1/schedule_stop_pairs?operator_onestop_id
 const parseScheduleStopPair = (pair): * => {
     const date = pair.service_start_date;
     const time = pair.origin_departure_time;
+    const timezone = new Date().getTimezoneOffset() / 60;
     return {
         route: pair.route_onestop_id,
         key: pair.trip,
@@ -49,12 +50,12 @@ class scheduleStore {
             .finally((): null => this.loadingRoutes = false);
     }
 
-    @action.bound refreshDepartures(): *  {
+    @action.bound refreshDepartures(): * {
         this.loadingDepartures = true;
         // assume the timezone is correct
-        const dateString = this.currentTime.toISOString().substr(0,10);
-        const startTimeString = this.currentTime.toTimeString().substr(0,8);
-        const endTimeString = new Date(this.currentTime.getTime() + 1000*60*30).toTimeString().substr(0,8);
+        const dateString = this.currentTime.toISOString().substr(0, 10);
+        const startTimeString = this.currentTime.toTimeString().substr(0, 8);
+        const endTimeString = new Date(this.currentTime.getTime() + (1000 * 60 * 30)).toTimeString().substr(0, 8);
         const formattedUrl = url.replace(
             'theDate', dateString
         ).replace(
@@ -63,11 +64,11 @@ class scheduleStore {
             'endTime', endTimeString
         );
         fetch(formattedUrl)
-            .then((response): * =>{
+            .then((response): * => {
                 return response.json();
             })
-            .then((rJSON): * =>{
-                return rJSON.schedule_stop_pairs.map(parseScheduleStopPair)
+            .then((rJSON): * => {
+                return rJSON.schedule_stop_pairs.map(parseScheduleStopPair);
             })
             .then((pairs): * => {
                 this.departures = pairs.sort((first, second): * =>
@@ -105,8 +106,10 @@ class scheduleStore {
                 .filter((departure): boolean => departure.route === route.id);
             tripsForRoute.forEach(
                 ((trip): null => {
-                    if (trip.time && trip.time.toLocaleTimeString) {
-                        trip.time = trip.time.toLocaleTimeString();
+                    if (trip.time && trip.time.getTime) {
+                        const offset = this.currentTime.getTimezoneOffset() * 60 * 1000;
+                        const newTime = new Date(trip.time.getTime() + offset);
+                        trip.time = newTime.toLocaleTimeString();
                     }
                 })
             );
