@@ -2,7 +2,7 @@
 
 import { observable, action, computed } from 'mobx';
 
-import { tripsURL, HALF_HOUR } from '../components/constants'
+import { ROUTES_URL, TIME_WINDOW, TRIPS_URL } from '../components/constants'
 
 const parseScheduleStopPair = (pair): object => {
     const date = pair.service_start_date;
@@ -33,7 +33,7 @@ class scheduleStore {
     @action.bound refreshRoutes(): null {
         this.routes.clear();
         this.loadingRoutes = true;
-        fetch('https://transit.land/api/v1/routes?origin_onestop_id=s-dpz839kujp-unionstation%3Cun&operated_by=o-dpz-gotransit&vehicle_type=rail')
+        fetch(ROUTES_URL)
             .then((response): object => response.json())
             .then((rJSON): array => rJSON.routes.map(parseRoute))
             .then((routes): null => {
@@ -47,7 +47,7 @@ class scheduleStore {
         // assume the timezone is correct
         const dateString = this.currentTime.toISOString().substr(0, 10);
         const startTimeString = this.currentTime.toTimeString().substr(0, 8);
-        const endTimeString = new Date(this.currentTime.getTime() + HALF_HOUR).toTimeString().substr(0, 8);
+        const endTimeString = new Date(this.currentTime.getTime() + TIME_WINDOW).toTimeString().substr(0, 8);
         const formattedUrl = TRIPS_URL.replace(
             'theDate', dateString
         ).replace(
