@@ -32,24 +32,20 @@ class scheduleStore {
     @observable loadingRoutes = false;
     @observable loadingDepartures = false;
     @observable currentTime = new Date();
-    @observable debug = []
 
     @action.bound refreshRoutes(): null {
         this.routes.clear();
         this.loadingRoutes = true;
-        this.debug = [];
         fetch('https://transit.land/api/v1/routes?origin_onestop_id=s-dpz839kujp-unionstation%3Cun&operated_by=o-dpz-gotransit&vehicle_type=rail')
-            .then((response): * =>{
-                return response.json();
-            })
-            .then((rJSON): * => rJSON.routes.map(parseRoute))
-            .then((routes): * => {
+            .then((response): object => response.json())
+            .then((rJSON): array => rJSON.routes.map(parseRoute))
+            .then((routes): null => {
                 routes.forEach((route): null => { this.routes.set(route.id, route); });
             })
             .finally((): null => {this.loadingRoutes = false;});
     }
 
-    @action.bound refreshDepartures(): * {
+    @action.bound refreshDepartures(): null {
         this.loadingDepartures = true;
         // assume the timezone is correct
         const dateString = this.currentTime.toISOString().substr(0, 10);
@@ -63,32 +59,32 @@ class scheduleStore {
             'endTime', endTimeString
         );
         fetch(formattedUrl)
-            .then((response): * => {
+            .then((response): object => {
                 return response.json();
             })
-            .then((rJSON): * => {
+            .then((rJSON): array => {
                 return rJSON.schedule_stop_pairs.map(parseScheduleStopPair);
             })
-            .then((pairs): * => {
-                this.departures = pairs.sort((first, second): * =>
+            .then((pairs): null => {
+                this.departures = pairs.sort((first, second): number =>
                     first.time.getTime() - second.time.getTime()
                 );
             })
             .finally((): null => { this.loadingDepartures = false; });
     }
 
-    @action.bound refresh(): *  {
+    @action.bound refresh(): null {
         this.refreshDepartures();
         this.refreshRoutes();
     }
 
-    @computed get nextDeparture(): * {
+    @computed get nextDeparture(): object {
         if (this.departures.length) {
             return this.departures[0];
         }
     }
 
-    @computed get millisUntilDeparture(): * {
+    @computed get millisUntilDeparture(): number {
         if (!this.nextDeparture) {
             return -1;
         }
@@ -123,7 +119,7 @@ class scheduleStore {
             .filter((route): number => route.data.length);
     }
 
-    @computed get loading(): * {
+    @computed get loading(): boolean {
         return this.loadingDepartures || this.loadingRoutes;
     }
 
