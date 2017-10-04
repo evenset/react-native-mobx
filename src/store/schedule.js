@@ -7,10 +7,9 @@ const url = 'https://transit.land/api/v1/schedule_stop_pairs?operator_onestop_id
             '&date=theDate&origin_departure_between=startTime,endTime&origin_onestop_id=' +
             's-dpz839kujp-unionstation%3Cun';
 
-const parseScheduleStopPair = (pair): * => {
+const parseScheduleStopPair = (pair): object => {
     const date = pair.service_start_date;
     const time = pair.origin_departure_time;
-    const timezone = new Date().getTimezoneOffset() / 60;
     return {
         route: pair.route_onestop_id,
         key: pair.trip,
@@ -47,7 +46,7 @@ class scheduleStore {
             .then((routes): * => {
                 routes.forEach((route): null => { this.routes.set(route.id, route); });
             })
-            .finally((): null => this.loadingRoutes = false);
+            .finally((): null => {this.loadingRoutes = false;});
     }
 
     @action.bound refreshDepartures(): * {
