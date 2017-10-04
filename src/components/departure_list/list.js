@@ -10,6 +10,7 @@ import Header from './header';
 import styles from '../../styles';
 import { store } from '../../store/schedule';
 
+
 function renderHeader(data: Object): * {
     return <Header color={data.section.routeColor} title={data.section.title} />;
 }
