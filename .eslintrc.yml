@@ -40,6 +40,10 @@
       - error
       - 4
     react/jsx-filename-extension: 0
+    react/sort-prop-types:
+      - error
+    react/prop-types:
+      - error
     flowtype/require-parameter-type:
       - error
       - { excludeArrowFunctions: true }
@@ -49,5 +53,5 @@
       - error
       - always
     flowtype/space-after-type-colon:
-      - warning
+      - warn
       - always
