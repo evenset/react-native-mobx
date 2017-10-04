@@ -2,22 +2,20 @@
 
 import { StyleSheet } from 'react-native';
 
+import { GO_TRANSIT_GREEN } from '../components/constants';
+
 
 const styles: StyleSheet = StyleSheet.create({
-    appHeader: {
-        backgroundColor: '#00AB66',
-        color: 'white',
-        fontSize: 32,
-        height: 50,
-        marginBottom: 10,
-        textAlign: 'center',
-        width: '100%',
+    aboutApp: {
+        marginLeft: 10,
+        marginRight: 10,
     },
-    appContainer: {
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-        flex: 1,
-        justifyContent: 'space-between',
+    appHeader: {
+        backgroundColor: GO_TRANSIT_GREEN,
+        marginBottom: 10,
+    },
+    appHeaderTitle: {
+        color: 'white',
     },
     departure: {
         flex: 1,
@@ -34,7 +32,7 @@ const styles: StyleSheet = StyleSheet.create({
         marginRight: 20,
     },
     departureList: {
-        width: '100%',
+        flex: 1,
     },
     departureListHeader: {
         alignItems: 'center',
@@ -48,14 +46,15 @@ const styles: StyleSheet = StyleSheet.create({
         color: 'white',
         fontSize: 24,
     },
-    innerAppContainer: {
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-        flex: 1,
-        width: '100%',
+    rowOfButtonsWithMargins: {
+        marginBottom: 20,
+        marginTop: 10,
     },
-    reloadDepartures: {
-        width: 'unset',
+    rowOfButtons: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginLeft: 10,
+        marginRight: 10,
     },
 });
 
