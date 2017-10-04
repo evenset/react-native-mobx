@@ -1,16 +1,21 @@
 // @flow
 
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 
 import styles from '../styles';
 
 
 function AppContainer(props: Object): * {
     return (
-        <View style={styles.container}>
-            {props.children}
+        <View style={styles.appContainer}>
+            <Text style={styles.appHeader}>
+                {'Toronto Union Station GO Train Departures'}
+            </Text>
+            <View style={styles.innerAppContainer}>
+                {props.children}
+            </View>
         </View>
     );
 }
