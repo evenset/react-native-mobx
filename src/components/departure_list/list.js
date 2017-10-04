@@ -25,44 +25,25 @@ class DepartureList extends React.Component {
     constructor(props: Object) {
         super(props);
         this.handleAboutClick = this.handleAboutClick.bind(this);
-<<<<<<< HEAD
-=======
-        this.handleReloadDepartures = this.handleReloadDepartures.bind(this);
->>>>>>> eccfa0cceca6e046a68d688292cf88c15ca11964
     }
 
     handleAboutClick() {
         this.props.navigation.navigate('AboutApp');
     }
 
-<<<<<<< HEAD
-=======
-    handleReloadDepartures() {
-        // TODO
-    }
-
->>>>>>> eccfa0cceca6e046a68d688292cf88c15ca11964
     render(): * {
         return (
             <View style={styles.departureList}>
                 <View style={styles.rowOfButtons}>
                     <Button
-<<<<<<< HEAD
                         onPress={store.refresh}
-=======
-                        onPress={this.handleReloadDepartures}
->>>>>>> eccfa0cceca6e046a68d688292cf88c15ca11964
                         title="Reload Departures"
                     />
                 </View>
                 <SectionList
                     renderItem={renderDeparture}
                     renderSectionHeader={renderHeader}
-<<<<<<< HEAD
                     sections={store.departureData}
-=======
-                    sections={SECTIONS}
->>>>>>> eccfa0cceca6e046a68d688292cf88c15ca11964
                 />
                 <View style={[styles.rowOfButtons, styles.rowOfButtonsWithMargins]}>
                     <Button
