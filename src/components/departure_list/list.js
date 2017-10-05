@@ -2,32 +2,13 @@
 
 import React from 'react';
 import { Button, SectionList, View } from 'react-native';
+import { observer } from 'mobx-react';
 
 import { NAVIGATION_PROP_TYPE } from '../constants';
 import Departure from './departure';
 import Header from './header';
 import styles from '../../styles';
-
-
-// NOTE: this is temporary data until MobX is hooked up
-const SECTIONS = [
-    {
-        data: [
-            { key: 'something', time: '12:34', name: 'Union 12:34 - Georgetown 13:33' },
-            { key: 'somethign', time: '12:34', name: 'Union 12:34 - Georgetown 13:33' },
-        ],
-        routeColor: '#0000BB',
-        title: 'Kitchener',
-    },
-    {
-        data: [
-            { key: 'somethgin', time: '12:34', name: 'Union 12:34 - Milton 13:33' },
-            { key: 'sometghin', time: '12:34', name: 'Union 12:34 - Milton 13:33' },
-        ],
-        routeColor: '#FF0000',
-        title: 'Milton',
-    },
-];
+import { store } from '../../store/schedule';
 
 
 function renderHeader(data: Object): * {
@@ -44,15 +25,10 @@ class DepartureList extends React.Component {
     constructor(props: Object) {
         super(props);
         this.handleAboutClick = this.handleAboutClick.bind(this);
-        this.handleReloadDepartures = this.handleReloadDepartures.bind(this);
     }
 
     handleAboutClick() {
         this.props.navigation.navigate('AboutApp');
-    }
-
-    handleReloadDepartures() {
-        // TODO
     }
 
     render(): * {
@@ -60,14 +36,14 @@ class DepartureList extends React.Component {
             <View style={styles.departureList}>
                 <View style={styles.rowOfButtons}>
                     <Button
-                        onPress={this.handleReloadDepartures}
+                        onPress={store.refresh}
                         title="Reload Departures"
                     />
                 </View>
                 <SectionList
                     renderItem={renderDeparture}
                     renderSectionHeader={renderHeader}
-                    sections={SECTIONS}
+                    sections={store.departureData}
                 />
                 <View style={[styles.rowOfButtons, styles.rowOfButtonsWithMargins]}>
                     <Button
@@ -87,4 +63,4 @@ DepartureList.defaultProps = {
 };
 
 
-export default DepartureList;
+export default observer(DepartureList);
