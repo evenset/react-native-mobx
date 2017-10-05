@@ -4,7 +4,7 @@
     <item>
         <bitmap
             android:gravity="fill"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/screen"/>
     </item>
 
 </selector>
