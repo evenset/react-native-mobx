@@ -46,9 +46,11 @@
       - error
     flowtype/require-parameter-type:
       - error
-      - { excludeArrowFunctions: true }
+      - { excludeArrowFunctions: 'expressionsOnly' }
     flowtype/require-return-type:
       - error
+      - always
+      - { excludeArrowFunctions: 'expressionsOnly' }
     flowtype/require-valid-file-annotation:
       - error
       - always
