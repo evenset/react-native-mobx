@@ -7,7 +7,7 @@ import { Text, View } from 'react-native';
 import styles from '../../styles';
 
 
-function Header(props: Object): * {
+function Header(props: Object): View {
     return (
         <View style={[styles.departureListHeader, { backgroundColor: props.color }]}>
             <Text style={styles.departureListHeaderText}>

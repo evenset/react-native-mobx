@@ -30,19 +30,19 @@ class scheduleStore {
     @observable loadingDepartures = false;
     @observable currentTime = new Date();
 
-    @action.bound refreshRoutes(): null {
+    @action.bound refreshRoutes() {
         this.routes.clear();
         this.loadingRoutes = true;
         fetch(ROUTES_URL)
             .then((response): object => response.json())
             .then((rJSON): array => rJSON.routes.map(parseRoute))
-            .then((routes): null => {
-                routes.forEach((route): null => { this.routes.set(route.id, route); });
+            .then((routes) => {
+                routes.forEach((route) => { this.routes.set(route.id, route); });
             })
-            .finally((): null => {this.loadingRoutes = false;});
+            .finally(() => {this.loadingRoutes = false;});
     }
 
-    @action.bound refreshDepartures(): null {
+    @action.bound refreshDepartures() {
         this.loadingDepartures = true;
         // assume the timezone is correct
         const dateString = this.currentTime.toISOString().substr(0, 10);
@@ -62,15 +62,15 @@ class scheduleStore {
             .then((rJSON): array => {
                 return rJSON.schedule_stop_pairs.map(parseScheduleStopPair);
             })
-            .then((pairs): null => {
+            .then((pairs) => {
                 this.departures = pairs.sort((first, second): number =>
                     first.time.getTime() - second.time.getTime()
                 );
             })
-            .finally((): null => { this.loadingDepartures = false; });
+            .finally(() => { this.loadingDepartures = false; });
     }
 
-    @action.bound refresh(): null {
+    @action.bound refresh() {
         this.refreshDepartures();
         this.refreshRoutes();
     }
@@ -97,7 +97,7 @@ class scheduleStore {
             const tripsForRoute = this.departures
                 .filter((departure): boolean => departure.route === route.id);
             tripsForRoute.forEach(
-                ((trip): null => {
+                ((trip) => {
                     if (trip.time && trip.time.getTime) {
                         const offset = this.currentTime.getTimezoneOffset() * 60 * 1000;
                         const newTime = new Date(trip.time.getTime() + offset);

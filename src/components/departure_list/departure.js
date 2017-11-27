@@ -7,7 +7,7 @@ import { Text, View } from 'react-native';
 import styles from '../../styles';
 
 
-function Departure(props: Object): * {
+function Departure(props: Object): View {
     const data: Object = props.data.item;
 
     return (

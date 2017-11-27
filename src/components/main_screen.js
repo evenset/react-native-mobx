@@ -6,7 +6,7 @@ import { NAVIGATION_PROP_TYPE } from './constants';
 import DepartureList from './departure_list';
 
 
-function MainScreen(props: Object): * {
+function MainScreen(props: Object): DepartureList {
     return (
         <DepartureList navigation={props.navigation} />
     );

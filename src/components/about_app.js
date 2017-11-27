@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 import styles from '../styles';
 
 
-function AboutApp(): * {
+function AboutApp(): View {
     return (
         <View style={styles.aboutApp}>
             <Text>
