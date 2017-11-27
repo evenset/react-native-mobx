@@ -15,6 +15,12 @@ function AboutApp(): * {
             <Text>
                 {'Check out our website! evenset.com'}
             </Text>
+            <Text>
+                Data used in this product or service is provided with the permission of Metrolinx.
+                Metrolinx makes no representations or warranties of any kind, express or implied,
+                with respect to the Data and assumes no responsibility for the accuracy or currency
+                of the data used in this product or service.
+            </Text>
         </View>
     );
 }
