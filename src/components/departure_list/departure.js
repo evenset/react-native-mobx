@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 
-function Departure(props: Object): View {
+function Departure(props: DeparturePropTypes): View {
     const data: Object = props.data.item;
 
     return (
@@ -36,14 +35,16 @@ function Departure(props: Object): View {
         </View>
     );
 }
-Departure.propTypes = {
-    data: PropTypes.shape({
-        item: PropTypes.shape({
-            name: PropTypes.string,
-            time: PropTypes.string,
-        }),
-    }),
-};
+
+type DeparturePropTypes = {
+    data: {
+        item: {
+            name: string,
+            time: string,
+        },
+    }
+}
+
 Departure.defaultProps = {
     data: { item: { color: '#FFFFFF', name: '', time: '' } },
 };
