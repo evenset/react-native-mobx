@@ -4,7 +4,7 @@ import React from 'react';
 import { Button, SectionList, View } from 'react-native';
 import { observer } from 'mobx-react';
 
-import { NAVIGATION_PROP_TYPE } from '../constants';
+import type { NAVIGATION_PROP_TYPE } from '../constants';
 import Departure from './departure';
 import Header from './header';
 import styles from '../../styles';
@@ -21,8 +21,8 @@ function renderDeparture(data: Object): * {
 }
 
 
-class DepartureList extends React.Component<{}> {
-    constructor(props: Object) {
+class DepartureList extends React.Component<DepartureListPropTypes> {
+    constructor(props: DepartureListPropTypes) {
         super(props);
         this.handleAboutClick = this.handleAboutClick.bind(this);
     }
@@ -57,11 +57,8 @@ class DepartureList extends React.Component<{}> {
         );
     }
 }
-DepartureList.propTypes = {
+type DepartureListPropTypes = {
     navigation: NAVIGATION_PROP_TYPE,
-};
-DepartureList.defaultProps = {
-    navigation: {},
 };
 
 

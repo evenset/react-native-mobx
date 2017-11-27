@@ -2,26 +2,47 @@
 
 import { observable, action, computed } from 'mobx';
 
-import { ROUTES_URL, TIME_WINDOW, TRIPS_URL } from '../components/constants'
+import { ROUTES_URL, TIME_WINDOW, TRIPS_URL } from '../components/constants';
 
-const parseScheduleStopPair = (pair): object => {
+type scheduleStopPair = {
+    service_start_date: string,
+    origin_departure_time: string,
+    route: string,
+    route_onestop_id: string,
+    time: Date,
+    trip: string,
+    trip_headsign: string,
+};
+
+export type departureListItem = {
+    route: string,
+    key: string,
+    time: Date,
+    name: string,
+};
+
+export type routeListItem = {
+    id: string,
+    color: string,
+    name: string,
+};
+
+const parseScheduleStopPair = (pair: scheduleStopPair): departureListItem => {
     const date = pair.service_start_date;
     const time = pair.origin_departure_time;
     return {
         route: pair.route_onestop_id,
         key: pair.trip,
-        time: new Date(date + 'T' + time + 'Z'),
+        time: new Date(`${date}T${time}Z`),
         name: pair.trip_headsign,
     };
 };
 
-const parseRoute = (route): object => {
-    return {
-        id: route.onestop_id,
-        color: '#' + route.tags.route_color,
-        name: route.tags.route_long_name,
-    };
-};
+const parseRoute = (route): routeListItem => ({
+    id: route.onestop_id,
+    color: `#${route.tags.route_color}`,
+    name: route.tags.route_long_name,
+});
 
 class scheduleStore {
     @observable departures = [];
@@ -35,11 +56,11 @@ class scheduleStore {
         this.loadingRoutes = true;
         fetch(ROUTES_URL)
             .then((response): object => response.json())
-            .then((rJSON): array => rJSON.routes.map(parseRoute))
-            .then((routes) => {
-                routes.forEach((route) => { this.routes.set(route.id, route); });
+            .then((rJSON): Array<routeListItem> => rJSON.routes.map(parseRoute))
+            .then((routes: Array<routeListItem>) => {
+                routes.forEach((route: routeListItem) => { this.routes.set(route.id, route); });
             })
-            .finally(() => {this.loadingRoutes = false;});
+            .finally(() => { this.loadingRoutes = false; });
     }
 
     @action.bound refreshDepartures() {
@@ -56,13 +77,11 @@ class scheduleStore {
             'endTime', endTimeString
         );
         fetch(formattedUrl)
-            .then((response): object => {
-                return response.json();
-            })
-            .then((rJSON): array => {
-                return rJSON.schedule_stop_pairs.map(parseScheduleStopPair);
-            })
-            .then((pairs) => {
+            .then((response): object => response.json())
+            .then((rJSON): Array<scheduleStopPair> =>
+                rJSON.schedule_stop_pairs.map(parseScheduleStopPair)
+            )
+            .then((pairs: Array<scheduleStopPair>) => {
                 this.departures = pairs.sort((first, second): number =>
                     first.time.getTime() - second.time.getTime()
                 );
@@ -75,10 +94,11 @@ class scheduleStore {
         this.refreshRoutes();
     }
 
-    @computed get nextDeparture(): object {
+    @computed get nextDeparture(): ?scheduleStopPair {
         if (this.departures.length) {
             return this.departures[0];
         }
+        return null;
     }
 
     @computed get millisUntilDeparture(): number {
@@ -91,9 +111,9 @@ class scheduleStore {
             (this.currentTime.getTimezoneOffset() * 60 * 1000), 0);
     }
 
-    @computed get departureData(): object {
+    @computed get departureData(): Array<{data: scheduleStopPair, routeColor: string, title: string}> {
         const results = [];
-        this.routes.forEach((route) => {
+        this.routes.forEach((route: routeListItem) => {
             const tripsForRoute = this.departures
                 .filter((departure): boolean => departure.route === route.id);
             tripsForRoute.forEach(

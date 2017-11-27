@@ -2,16 +2,16 @@
 
 import React from 'react';
 
-import { NAVIGATION_PROP_TYPE } from './constants';
+import type { NAVIGATION_PROP_TYPE } from './constants';
 import DepartureList from './departure_list';
 
 
-function MainScreen(props: Object): DepartureList {
+function MainScreen(props: MainScreenPropTypes): DepartureList {
     return (
         <DepartureList navigation={props.navigation} />
     );
 }
-MainScreen.propTypes = {
+type MainScreenPropTypes = {
     navigation: NAVIGATION_PROP_TYPE,
 };
 MainScreen.defaultProps = {
