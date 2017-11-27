@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function AboutApp(): * {
+function AboutApp(): View {
     return (
         <View style={styles.aboutApp}>
             <Text>

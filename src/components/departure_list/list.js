@@ -35,17 +35,19 @@ function renderDeparture(data: Object): * {
 }
 
 
-class DepartureList extends React.Component {
+class DepartureList extends React.Component<{}> {
     constructor(props: Object) {
         super(props);
         this.handleAboutClick = this.handleAboutClick.bind(this);
     }
 
+    handleAboutClick: Function
+
     handleAboutClick() {
         this.props.navigation.navigate('AboutApp');
     }
 
-    render(): * {
+    render(): View {
         return (
             <View style={styles.departureList}>
                 <View style={styles.rowOfButtons}>

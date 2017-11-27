@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 });
 
 
-function Departure(props: Object): * {
+function Departure(props: Object): View {
     const data: Object = props.data.item;
 
     return (
