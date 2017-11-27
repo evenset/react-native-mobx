@@ -2,9 +2,22 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
-import styles from '../../styles';
+const styles = StyleSheet.create({
+    departureListHeader: {
+        alignItems: 'center',
+        flex: 1,
+        height: 50,
+        justifyContent: 'center',
+        marginBottom: 5,
+        marginTop: 20,
+    },
+    departureListHeaderText: {
+        color: 'white',
+        fontSize: 24,
+    },
+});
 
 
 function Header(props: Object): * {
