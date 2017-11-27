@@ -1,15 +1,29 @@
 // @flow
 
 import React from 'react';
-import { Button, SectionList, View } from 'react-native';
+import { Button, SectionList, View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 
 import { NAVIGATION_PROP_TYPE } from '../constants';
 import Departure from './departure';
 import Header from './header';
-import styles from '../../styles';
 import { store } from '../../store/schedule';
 
+const styles = StyleSheet.create({
+    departureList: {
+        flex: 1,
+    },
+    rowOfButtons: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginLeft: 10,
+        marginRight: 10,
+    },
+    rowOfButtonsWithMargins: {
+        marginBottom: 20,
+        marginTop: 10,
+    },
+});
 
 function renderHeader(data: Object): * {
     return <Header color={data.section.routeColor} title={data.section.title} />;

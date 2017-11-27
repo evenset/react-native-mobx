@@ -2,9 +2,24 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
-import styles from '../../styles';
+const styles = StyleSheet.create({
+    departure: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginLeft: 10,
+        marginRight: 10,
+    },
+    departureText: {
+        color: 'black',
+    },
+    departureTextTime: {
+        fontWeight: 'bold',
+        marginRight: 20,
+    },
+});
 
 
 function Departure(props: Object): * {
